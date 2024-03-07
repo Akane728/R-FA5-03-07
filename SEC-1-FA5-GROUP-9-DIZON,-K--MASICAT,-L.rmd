@@ -1,0 +1,105 @@
+---
+title: "Formative Assessment 5"
+author: "Dizon, Kiana Marie <br> Masicat, Lindsy Rossel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+6. An email message can travel through one of three server routes. The percentage of errors in each of the servers and the percentage of messages that travel through each route are shown in the following table. Assume that the servers are independent.
+
+   Servers    | Percentage of Messages  | Percentage of Errors |
+------------- | ------------------------| ---------------------|
+   Server 1   |           40            |           1          |   
+   Server 2   |           25            |           2          |   
+   Server 3   |           35            |          1.5         |   
+
+
+
+(a) What is the probability of receiving an email containing an error?
+
+(b) What is the probability that a message will arrive without error?
+
+(c) If a message arrives without error, what is the probability that it was sent through server 1?
+
+```{r number6}
+
+servers123 <- c(0.40, 0.25, 0.35)
+errors123 <- c(0.01, 0.02, 0.015)
+
+
+errors123 <- sum(servers123 * errors123)
+cat("Probability of receiving an email containing an error:", errors123, "\n")
+
+
+noError <- sum(servers123 * (1 - errors123))
+cat("Probability that a message will arrive without error:", noError, "\n")
+
+
+noErrorServer1 <- servers123[1] * (1 - errors123[1])
+prob_server1NoError <- noErrorServer1 / noError
+cat("Probability that a message sent through server 1 arrives without error:", prob_server1NoError, "\n")
+```
+
+
+9. A software company surveyed managers to determine the probability that they would buy a new graphics package that includes three-dimensional graphics.About 20% of office managers were certain that they would not buy the package, 70% claimed that they would buy, and the others were undecided. Of those who said that they would not buy the package, only 10% said that they were interested in upgrading their computer hardware. Of those interested in buying the graphics package, 40% were also interested in upgrading their computer hardware. Of the undecided, 20% were interested in upgrading their computer hardware. Let A denote the intention of not buying, B the intention of buying, C the undecided, and G the intention of upgrading the computer hardware.
+
+(a) Calculate the probability that a manager chosen at random will not upgrade the computer hardware (P(~G)).
+
+```{r 9}
+
+ProbA <- 0.20  
+ProbB <- 0.70  
+ProbC <- 1 - ProbA - ProbB  
+
+PgivenA <- 0.10  
+PgivenB <- 0.40  
+PgivenC <- 0.20  
+
+ProbG <- (ProbA * PgivenA) + (ProbB * PgivenB) + (ProbC * PgivenC)
+ProbNotG <- (1 - ProbG)
+
+ProbBgivenG <- (ProbB * PgivenB) / ProbG
+
+PROBnotBgivenG <- 1 - ProbBgivenG
+
+ProbCgivenG <- (ProbC * PgivenC) / ProbG
+
+PROBnotCgivenG  <- 1 - ProbCgivenG
+
+cat("Probability that will not upgrade: ", ProbNotG, "\n")
+```
+
+(b) Explain what is meant by the posterior probability of B given G, P(B|G).
+Answer: The posterior probability of B given G (P(B|G)) shows the likelihood of a management purchasing the package if they are looking to upgrade their computer hardware.
+
+(c) Construct a tree diagram and use it to calculate the following probabilities:
+P(G), P(B|G), P(B|~G), P(C|G), P(~C|~G).
+
+
+13. A malicious spyware can infect a computer system though the Internet or through email. The spyware comes through the Internet 70% of the time and 30% of the time, it gets in through email. If it enters via the Internet the anti-virus detector will detect it with probability 0.6, and via email, it is detected with probability 0.8.
+
+
+
+(a) What is the probability that this spyware infects the system?
+
+```{r number13}
+ProbInternet <- 0.70
+ProbEmail <- 0.30
+ProbDetectInternet <- 0.6
+ProbDetectEmail <- 0.8
+
+ProbInfect <- ProbInternet * (1 - ProbDetectInternet) + ProbEmail * (1 - ProbDetectEmail)
+cat("Probability that the spyware infects the system:", ProbInfect, "\n")
+```
+
+
+(b) If the spyware is detected, what is the probability that it came through the
+Internet?
+
+```{r 13b}
+
+ProbInternetGivenDetected <- (ProbDetectInternet * ProbInternet) / (ProbDetectInternet * ProbInternet + ProbDetectEmail * ProbEmail)
+
+cat("Probability that the spyware came through the Internet given that it was detected:", ProbInternetGivenDetected, "\n")
+
+```
